@@ -1,13 +1,13 @@
 import { getSession } from 'next-auth/client';
 
 import { hashPassword, verifyPassword } from '../../../lib/auth';
-import { connectToDatabase } from '../../../lib/db';
+import connectToDatabase from '../../../lib/db';
 
-const handler = (req, res) => {
+const handler = async (req, res) => {
   if (req.method !== 'PATCH') {
     return;
   }
-  const session = getSession({ req: req });
+  const session = await getSession({ req: req });
   if (!session) {
     //401 Unauthorized client error status response code indicates that the client request has not been completed because it lacks valid authentication credentials for the requested resource.
     res.status(401).json({ message: 'Not authenticated!' });
